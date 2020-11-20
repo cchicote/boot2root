@@ -20,5 +20,37 @@
             We're Coming Soon
         We have our IP!
 
+2- Scan IP
+    - We use dirsearch:
+        git clone https://github.com/maurosoria/dirsearch ; cd dirsearch
+
+    - python3 dirsearch.py -u https://192.168.0.19
+          _|. _ _  _  _  _ _|_    v0.4.0
+         (_||| _) (/_(_|| (_| )
         
+        Extensions: php, asp, aspx, jsp, html, htm, js | HTTP method: GET | Threads: 20 | Wordlist size: 10023
+        
+        Error Log: /home/user42/Projets/boot2root/dirsearch/logs/errors-20-11-20_13-16-35.log
+        
+        Target: https://192.168.0.19/
+        
+        Output File: /home/user42/Projets/boot2root/dirsearch/reports/192.168.0.19/_20-11-20_13-16-35.txt
+    
+        [13:16:35] Starting: 
+        [13:16:52] 403 -  289B  - /cgi-bin/
+        [13:16:56] 301 -  314B  - /forum  ->  https://192.168.0.19/forum/
+        [13:17:04] 301 -  319B  - /phpmyadmin  ->  https://192.168.0.19/phpmyadmin/
+        [13:17:05] 200 -    7KB - /phpmyadmin/
+        [13:17:06] 403 -  294B  - /server-status
+        [13:17:06] 403 -  295B  - /server-status/
+        [13:17:11] 403 -  307B  - /webmail/src/configtest.php
+        [13:17:11] 302 -    0B  - /webmail/  ->  src/login.php
+        
+        Task Completed
+
+        So we see that we have 3 accessible pages:
+            https://192.168.0.19/forum
+            https://192.168.0.19/phpmyadmin
+            https://192.168.0.19/webmail
+
 
