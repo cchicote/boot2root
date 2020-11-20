@@ -1,0 +1,24 @@
+0- Start VM:
+    - VirtualBox -> Configuration -> Network -> Network access mode: bridge -> OK
+    - Start VM
+
+1- Find VM IP:
+    - On Salty's VM:
+        nmap -sn 192.168.0.0/16
+
+        we get:
+        Starting Nmap 7.60 ( https://nmap.org ) at 2020-11-20 12:44 CET
+        Nmap scan report for 192.168.0.1
+        Host is up (0.0047s latency).
+        Nmap scan report for 192.168.0.19
+        Host is up (0.0024s latency).
+        Nmap done: 256 IP addresses (2 hosts up) scanned in 3.18 seconds
+
+        So we have 2 IP addresses, we try entering them on a web browser
+        We have a page for 192.168.0.19 with this written: 
+            Hack me
+            We're Coming Soon
+        We have our IP!
+
+        
+
