@@ -65,5 +65,24 @@
         We can now login as lmezard on the forum with the following combo:
             lmezard:!q\]Ej?*5K5cy*AJ
 
-    - 
+    - Finding email address for user lmezard:
+        https://192.168.0.19/forum/index.php?mode=user&action=edit_profile
+        We find the following email: laurie@borntosec.net
+
+    - Searching in the mail box:
+        https://192.168.0.19/webmail/src/login.php
+        We connect with the following combo:
+            laurie@borntosec.net:!q\]Ej?*5K5cy*AJ
+        There is one important e-mail: "DB Access"
+            Hey Laurie,
+
+            You cant connect to the databases now. Use root/Fg-'kKXBj87E:aJ$
+
+            Best regards.
+        So we now have DB root access 8)
+
+    - Connecting to the DB:
+        https://192.168.0.19/phpmyadmin/
+        Connect with root:Fg-'kKXBj87E:aJ$
+
 
