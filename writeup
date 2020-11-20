@@ -108,18 +108,312 @@
 
     - fun file:
         the file seems to be an archive
-        we use tar -xf to dezip the file.
+        we use tar -xf to unzip the file.
 
-        we got a folder, named ft_fun with a lot of '.pcap' file inside.
+        we got a folder, named ft_fun with a lot of '.pcap' files inside.
         It seems that every file has a part of C code but it is a mess.
 
         Like every pcap file has a "//file XXX" part which seems to give us the suite of the C code.
         So we decide to make a script to convert these file to a C file: file_pcap_to_c.py
 
         then we start the script, compiling our C file with gcc, and finaly run the binary.
-        It gave us the next sentence:   
+        It gave us the next sentence:
 
         MY PASSWORD IS: Iheartpwnage
         Now SHA-256 it and submit
 
         SHA-256: 330b845f32185747e4f8ca15d40ca59796035c89ea809fb5d30f4da83ecf45a4
+
+    - SSH Laurie:
+        Now we can connect in SSH with the following combo:
+            laurie:330b845f32185747e4f8ca15d40ca59796035c89ea809fb5d30f4da83ecf45a4
+
+        There is a bomb executable and a README
+        We scp the bomb file into our homedir
+            scp laurie@192.168.0.19:~/bomb .
+
+        We decompile and anlyze the bomb with ghidra
+        It seems like a game with 6 diferent levels
+            Phase1:
+                void phase_1(undefined4 param_1)
+                {
+                  int i;
+  
+                  i = strings_not_equal(param_1,"Public speaking is very easy.");
+                  if (i != 0) {
+                    explode_bomb();
+                  }
+                  return;
+                }
+            Very easy, we just have to enter a specific string
+            >Public speaking is very easy.
+            >ENTER
+
+            Phase2:
+                void phase_2(undefined4 param_1)
+                {
+                  int i;
+                  int suite [7];
+                  
+                  read_six_numbers(param_1,suite + 1);
+                  if (suite[1] != 1) {
+                    explode_bomb();
+                  }
+                  i = 1;
+                  do {
+                    if (suite[i + 1] != (i + 1) * suite[i]) {
+                      explode_bomb();
+                    }
+                    i = i + 1;
+                  } while (i < 6);
+                  return;
+                }
+            This is a little maths trick, we follow the algorithm to get this suite:
+            i   1   2   3   4   5   6
+            val 1   2   6   24  120 720
+            >1 2 6 24 120 720
+            >ENTER
+
+            Phase3:
+                void phase_3(undefined4 param_1)
+                {
+                  int i;
+                  char c;
+                  uint var1;
+                  char var2;
+                  int var3;
+                  
+                  i = sscanf(param_1,"%d %c %d",&var1,&var2,&var3);
+                  if (i < 3) {
+                    explode_bomb();
+                  }
+                  switch(var1) {
+                  case 0:
+                    c = 'q';
+                    if (var3 != 0x309) {
+                     explode_bomb();
+                    }
+                    break;
+                  case 1:
+                    c = 'b';
+                    if (var3 != 0xd6) {
+                    explode_bomb();
+                    }
+                    break;
+                  case 2:
+                    c = 'b';
+                    if (var3 != 0x2f3) {
+                    explode_bomb();
+                    }
+                    break;
+                  case 3:
+                    c = 'k';
+                    if (var3 != 0xfb) {
+                      explode_bomb();
+                    }
+                    break;
+                  case 4:
+                    c = 'o';
+                    if (var3 != 0xa0) {
+                      explode_bomb();
+                    }
+                    break;
+                  case 5:
+                    c = 't';
+                    if (var3 != 0x1ca) {
+                      explode_bomb();
+                    }
+                    break;
+                  case 6:
+                    c = 'v';
+                    if (var3 != 0x30c) {
+                      explode_bomb();
+                    }
+                    break;
+                  case 7:
+                    c = 'b';
+                    if (var3 != 0x20c) {
+                      explode_bomb();
+                    }
+                    break;
+                  default:
+                    c = 'x';
+                    explode_bomb();
+                  }
+                  if (c != var2) {
+                    explode_bomb();
+                  }
+                  return;
+                }
+            The part we focus on is this one:
+              case 1:
+                c = 'b';
+                if (var3 != 0xd6) {
+                  explode_bomb();
+                }
+                break;
+            So we input 1 b 214
+            >1 b 214
+            >ENTER
+            
+            Phase4:
+                void phase_4(undefined4 param_1)
+                {
+                  int i;
+                  int var1;
+                  
+                  i = sscanf(param_1,&DAT_08049808,&var1);
+                  if ((i != 1) || (var1 < 1)) {
+                    explode_bomb();
+                  }
+                  i = func4(var1);
+                  if (i != 0x37) {
+                    explode_bomb();
+                  }
+                  return;
+                }
+                
+                int func4(int param_1)
+                {
+                  int n1;
+                  int n2;
+
+                  if (param_1 < 2) {
+                    n2 = 1;
+                  }
+                  else {
+                    n1 = func4(param_1 + -1);
+                    n2 = func4(param_1 + -2);
+                    n2 = n2 + n1;
+                  }
+                  return n2;
+                }
+            By doing all the calculations, we find out that 9 is the best input
+            >9
+            >ENTER
+
+            Phase5:
+                void phase_5(int param_1)
+                {
+                  int i;
+                  undefined str [6];
+                  undefined num;
+                  
+                  i = string_length(param_1);
+                  if (i != 6) {
+                    explode_bomb();
+                  }
+                  i = 0;
+                  do {
+                    str[i] = (&array.123)[(char)(*(byte *)(i + param_1) & 0xf)];
+                    i = i + 1;
+                  } while (i < 6);
+                  num = 0;
+                  i = strings_not_equal(str,"giants");
+                  if (i != 0) {
+                    explode_bomb();
+                  }
+                  return;
+                }
+                This line does a rot on a custom alphabet
+                    str[i] = (&array.123)[(char)(*(byte *)(i + param_1) & 0xf)];
+                The custom alphabet is:
+                    isrveawhobpnutfg
+                We use a C program to write all the alphabet after being passed through the algorithm
+                We get:
+                    s r v e a w h o b p n u t f g i s r v e a w h o b p
+                    a b c d e f g h i j k l m n o p q r s t u v w x y z
+                We know that the result must be giants so we pick the following letters:
+                    opekmq
+            >opekmq
+            >ENTER
+
+            Phase6:
+                void phase_6(undefined4 param_1)
+                {
+                  int *piVar1;
+                  int iVar2;
+                  int *piVar3;
+                  int iVar4;
+                  int *piStack56;
+                  int *apiStack52 [6];
+                  int aiStack28 [6];
+                  
+                  piStack56 = (int *)&node1;
+                  read_six_numbers(param_1,aiStack28);
+                  iVar4 = 0;
+                  do {
+                    if (5 < aiStack28[iVar4] - 1U) {
+                      explode_bomb();
+                    }
+                    iVar2 = iVar4 + 1;
+                    if (iVar2 < 6) {
+                      do {
+                        if (aiStack28[iVar4] == aiStack28[iVar2]) {
+                          explode_bomb();
+                        }
+                        iVar2 = iVar2 + 1;
+                      } while (iVar2 < 6);
+                    }
+                    iVar4 = iVar4 + 1;
+                  } while (iVar4 < 6);
+                  iVar4 = 0;
+                  do {
+                    iVar2 = 1;
+                    piVar3 = piStack56;
+                    if (1 < aiStack28[iVar4]) {
+                      do {
+                        piVar3 = (int *)piVar3[2];
+                        iVar2 = iVar2 + 1;
+                      } while (iVar2 < aiStack28[iVar4]);
+                    }
+                    apiStack52[iVar4] = piVar3;
+                    iVar4 = iVar4 + 1;
+                  } while (iVar4 < 6);
+                  iVar4 = 1;
+                  piVar3 = apiStack52[0];
+                  do {
+                    piVar1 = apiStack52[iVar4];
+                    piVar3[2] = (int)piVar1;
+                    iVar4 = iVar4 + 1;
+                    piVar3 = piVar1;
+                  } while (iVar4 < 6);
+                  piVar1[2] = 0;
+                  iVar4 = 0;
+                  do {
+                    if (*apiStack52[0] < *(int *)apiStack52[0][2]) {
+                      explode_bomb();
+                    }
+                    apiStack52[0] = (int *)apiStack52[0][2];
+                    iVar4 = iVar4 + 1;
+                  } while (iVar4 < 5);
+                  return;
+                }   
+
+                We decided to lockpick this one with the script lockpick_phase6.py
+                python lockpick_phase6.py | grep Numbers
+                And we get: 
+                    Numbers: 4 2 6 3 1 5
+                >4 2 6 3 1 5
+                >ENTER
+        We know have Thor's password, also, there is mentionned on 42 forum that we need to switch len-2 and len-3 char to get the correct password, so we have the following combo:
+            thor:Publicspeakingisveryeasy.126241207201b2149opekmq426135
+
+    - SSH Thor:
+            ssh thor@192.168.0.19
+            Publicspeakingisveryeasy.126241207201b2149opekmq426135
+        There are 2 files: README and turtle
+        The turtle file is basically a weird version of a LOGO language script
+        We just have to replace few instructions to have the correct format:
+            tourne droite = DROITE
+            tourne gauche = GAUCHE
+            remove spaces and degrees
+        And now execute it on:
+            lwh.free.fr/pages/prog/logo/logo.htm
+        The drawing show us the word SLASH, that we need to digest in MD5 to get the following pass:
+            646da671ca01bb5d84dbb5fb2238dc8e
+        Now we can connect to zaz account with the following combo:
+            zaz:646da671ca01bb5d84dbb5fb2238dc8e
+
+    - SSH zaz:
+        
