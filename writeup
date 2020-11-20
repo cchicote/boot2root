@@ -107,4 +107,12 @@
         And they're automatically copied to the dir we executed the ftp command from
 
     - fun file:
-        
+        the file seems to be an archive
+        we use tar -xf to dezip the file.
+
+        we got a folder, named ft_fun with a lot of '.pcap' file inside.
+        It seems that every file has a part of a C code
+
+
+        Iheartpwnage
+        330b845f32185747e4f8ca15d40ca59796035c89ea809fb5d30f4da83ecf45a4
