@@ -53,4 +53,17 @@
             https://192.168.0.19/phpmyadmin
             https://192.168.0.19/webmail
 
+    - There is only one important page on the forum which is this one:
+        https://192.168.0.19/forum/index.php?mode=thread&id=6
+        
+        On this page we find these lines that look like a user mistake:
+            Oct 5 08:45:29 BornToSecHackMe sshd[7547]: Failed password for invalid user !q\]Ej?*5K5cy*AJ from 161.202.39.38 port 57764 ssh2
+        Oct 5 08:45:29 BornToSecHackMe sshd[7547]: Received disconnect from 161.202.39.38: 3: com.jcraft.jsch.JSchException: Auth fail [preauth]
+        Oct 5 08:46:01 BornToSecHackMe CRON[7549]: pam_unix(cron:session): session opened for user lmezard by (uid=1040)
+
+        The important informations we retrieve here are a failed password for a user that does not exist on the user's list (!q\]Ej?*5K5cy*AJ) and then an opened session for the user lmezard 30 seconds later. It looks like Laurie entered her password instead of her login.
+        We can now login as lmezard on the forum with the following combo:
+            lmezard:!q\]Ej?*5K5cy*AJ
+
+    - 
 
