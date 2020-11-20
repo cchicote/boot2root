@@ -111,8 +111,15 @@
         we use tar -xf to dezip the file.
 
         we got a folder, named ft_fun with a lot of '.pcap' file inside.
-        It seems that every file has a part of a C code
+        It seems that every file has a part of C code but it is a mess.
 
+        Like every pcap file has a "//file XXX" part which seems to give us the suite of the C code.
+        So we decide to make a script to convert these file to a C file: file_pcap_to_c.py
 
-        Iheartpwnage
-        330b845f32185747e4f8ca15d40ca59796035c89ea809fb5d30f4da83ecf45a4
+        then we start the script, compiling our C file with gcc, and finaly run the binary.
+        It gave us the next sentence:   
+
+        MY PASSWORD IS: Iheartpwnage
+        Now SHA-256 it and submit
+
+        SHA-256: 330b845f32185747e4f8ca15d40ca59796035c89ea809fb5d30f4da83ecf45a4
