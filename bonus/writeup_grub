@@ -1,0 +1,12 @@
+We need to spam the "shift" key at the boot of the vm.
+We see a message: "boot: ". It is the prompt of GRUB2.
+When we spam the "tab" key for autocompletion it gives us the "live" command.
+
+When we write it and press enter, it just boot on our OS without any root access.
+
+So after some research, we needed to spam GRUB2 menu to modify boot entry and appending "init=/bin/sh" to the end of the line beginning with: linux...
+
+But after a lot of time, we wasn't able to spam GRUB2 menu, so we just tried to make this command by adding "init=/bin/sh" to live:
+live init=/bin/sh
+
+It works well, we have our terminal and we are root ! Congrat :D
