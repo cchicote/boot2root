@@ -1,4 +1,4 @@
-We need to spam the "shift" key at the boot of the vm.
+We need to spam the "shift" key at the boot of the vm. (the "escape" key also works)
 We see a message: "boot: ". It is the prompt of GRUB2.
 When we spam the "tab" key for autocompletion it gives us the "live" command.
 
@@ -8,5 +8,7 @@ So after some research, we needed to spam GRUB2 menu to modify boot entry and ap
 
 But after a lot of time, we wasn't able to spam GRUB2 menu, so we just tried to make this command by adding "init=/bin/sh" to live:
 live init=/bin/sh
+or
+live init=/bin/bash
 
-It works well, we have our terminal and we are root ! Congrat :D
+It works well, we have our terminal and we are root ! Congrats :D
