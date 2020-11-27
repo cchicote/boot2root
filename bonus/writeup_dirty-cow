@@ -1,20 +1,23 @@
-After getting access to user laurie,
-we can easly get access to the kernel linux version: uname -r
-- 3.2.0-91-generic-pae
+After getting access to user laurie (or any other user),
+we can easily get access to the kernel linux version by typing:
+    uname -r
+And we get:
+    3.2.0-91-generic-pae
 
 After some reseach, we see that there is a race-condition vulnerability named "dirty cow" (CoW for copy-on-write).
 It gives us access to write whatever we want on any file of the system
 
 So we download the exploit: https://github.com/artemgurzhii/dirty-cow-root-exploit
-(I just wrote an other, easier to use)
+(In our boot2root/scripts directory we have a concatenated version of this exploit)
 
-We compile it and use it.
-It asks us to choose a password.
-type it, press enter
-wait, until it is over, if it is too long, just ctrl+C the program.
-
+We compile it:
+    gcc -pthread dirtycow_exploit.c -lcrypt -o exploit
+And use it.
+    ./exploit
+It asks us to choose a password, type whatever password you want (like toto)
+    toto
+Then press enter and wait, until it is over
 And now you can use:
-su root
-type the password that you choose before.
-
-Now it is working, we are root.
+    su root
+type the password that you just selected earlier (toto)
+Aaaaaaaand we are root !
