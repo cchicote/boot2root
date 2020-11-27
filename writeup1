@@ -113,7 +113,7 @@
         we got a folder, named ft_fun with a lot of '.pcap' files inside.
         It seems that every file has a part of C code but it is a mess.
 
-        Like every pcap file has a "//file XXX" part which seems to give us the suite of the C code.
+        Like every pcap file has a "//file XXX" part which seems to give us the rest of the C code.
         So we decide to make a script to convert these file to a C file: file_pcap_to_c.py
 
         then we start the script, compiling our C file with gcc, and finaly run the binary.
